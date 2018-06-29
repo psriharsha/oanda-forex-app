@@ -67,6 +67,37 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Instrument</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">initial Units</th>
+                                    <th scope="col">Open Time</th>
+                                    <th scope="col">State</th>
+                                    <th scope="col">Margin Used</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let trade of trades">
+                                    <td>{{ trade.instrument | replaceStockName }}</td>
+                                    <td>
+                                        <span *ngIf = "trade.initialUnits < 0">SHORT</span>
+                                        <span *ngIf = "trade.initialUnits > 0">LONG</span>
+                                    </td>
+                                    <td>{{ trade.price }}</td>
+                                    <td>{{ trade.initialUnits }}</td>
+                                    <td>{{ trade.openTime }}</td>
+                                    <td>{{ trade.state }}</td>
+                                    <td>{{ trade.marginUsed }}</td>
+                                </tr>
+                            </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         <div class="split-pane-content-secondary full-height">
             <div class="btn-group-vertical">

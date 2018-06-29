@@ -7,6 +7,7 @@ declare var $ : any
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { OrderRequest } from './order/orderRequest';
+import { Trade } from './trade/trade';
 
 @Injectable()
 export class AppService {
@@ -48,6 +49,11 @@ export class AppService {
 
       return this.http.post(this.url + 'v3/accounts/101-004-8304515-001/orders', {order : orderRequest}, this.requestOptions)
                         .map((res:Response) => res.json());
+    }
+
+    getAllTrades() : Observable<Trade[]>{
+      return this.http.get(this.url + 'v3/accounts/101-004-8304515-001/trades',this.requestOptions)
+                      .map((res : Response) => res.json());
     }
 
 }

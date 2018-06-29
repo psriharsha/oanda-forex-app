@@ -3,6 +3,7 @@ import { AppService } from './app.service';
 import { Stock } from './stock';
 import { Price } from './price';
 import { OrderRequest } from './order/orderRequest';
+import { Trade } from './trade/trade';
 
 @Component({
   selector: 'app-root',
@@ -15,8 +16,10 @@ export class AppComponent {
   selectedStocks: Stock[];
   stocks: Stock[];
   defaultVolume : number;
+  trades: Trade[];
   constructor(private appService : AppService){
       this.selectedStocks = new Array();
+      this.trades = new Array();
       this.appService.getAllStocks().subscribe((stocks : any) => {
         this.stocks = stocks.instruments;
         this.stocks.forEach((s : Stock) => {
@@ -58,6 +61,10 @@ export class AppComponent {
             
         });
       }
+      this.appService.getAllTrades().subscribe((tradesResponse : any) => {
+        console.log(tradesResponse.trades);
+        this.trades = tradesResponse.trades;
+      });
   }
 
   selectionChanged(stock : Stock){
