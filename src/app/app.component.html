@@ -1,20 +1,18 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
+<!-- <div style="text-align:center">
   <h1>
     {{title}}!
   </h1>
-</div>
-<div class="container-fluid" style="height:90vh; overflow:auto;">
+</div> -->
+<div class="container-fluid" style="height:100vh; overflow:auto;">
     <vertical-split-pane
-    primary-component-minsize="50"
-    secondary-component-minsize="100"
-    [primary-component-toggled-off]="false"
-    [secondary-component-toggled-off]="someCondition"
+    primary-component-minsize="1000"
+    secondary-component-minsize="200"
     local-storage-key="split-pane"
     primary-component-initialratio="0.8">
-    <div class="split-pane-content-primary">
+    <div class="split-pane-content-primary full-height">
             <div class="row">
-                <div class="col-md-4" *ngFor="let selectedStock of selectedStocks">
+                <div class="col-md-4 col-xs-6 col-12" *ngFor="let selectedStock of selectedStocks">
                     <div class="card mb-3"
                         [class.bg-warning] = "selectedStock.direction == 1"
                         [class.bg-dark] = "selectedStock.direction == -1"
@@ -25,7 +23,12 @@
                                 {{ selectedStock.name | replaceStockName }} 
                                 <i class="fa"
                                     [class.fa-sort-up] = "selectedStock.direction == 1"
-                                    [class.fa-sort-down] = "selectedStock.direction == -1"></i>
+                                    [class.fa-sort-down] = "selectedStock.direction == -1"></i>                                
+                                <button type="button" class="close" 
+                                    data-dismiss="alert" aria-label="Close"
+                                    (click)="removeStock(selectedStock)">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </h3>
                         </div>
                         <!-- <div class="card-content">
@@ -65,7 +68,7 @@
                 </div>
             </div>
         </div>
-        <div class="split-pane-content-secondary">
+        <div class="split-pane-content-secondary full-height">
             <div class="btn-group-vertical">
                 <button *ngFor="let s of stocks" class="btn btn-default" (click)="selectionChanged(s)">{{ s.name | replaceStockName}}</button>
             </div>

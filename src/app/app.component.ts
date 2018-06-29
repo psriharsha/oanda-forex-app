@@ -68,6 +68,12 @@ export class AppComponent {
     this.stocks.splice(index,1);
   }
 
+  removeStock(stock : Stock){
+    this.stocks.splice(0,0,stock);
+    let index = this.selectedStocks.indexOf(stock);
+    this.selectedStocks.splice(index,1);
+  }
+
   orderStock(stock : Stock, direction : number){
     let newBuyOrder : OrderRequest = new OrderRequest();
     newBuyOrder.units = this.defaultVolume * direction;
