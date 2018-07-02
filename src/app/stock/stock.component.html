@@ -1,10 +1,11 @@
-<div class="card mb-3" [class.bg-warning]="selectedStock.direction == 1" [class.bg-dark]="selectedStock.direction == -1"
+<div class="card mb-3" [class.bg-warning]="selectedStock.direction == 1"
+    *ngIf="selectedStock!=undefined" [class.bg-dark]="selectedStock.direction == -1"
     [class.bg-light]="selectedStock.direction == 0" [class.text-white]="selectedStock.direction != 0 && selectedStock.direction != undefined">
     <div class="card-header">
         <h3 class="text-center">
             {{ selectedStock.name | replaceStockName }}
             <i class="fa" [class.fa-sort-up]="selectedStock.direction == 1" [class.fa-sort-down]="selectedStock.direction == -1"></i>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="removeStock(selectedStock)">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="removeStock()">
                 <span aria-hidden="true">&times;</span>
             </button>
         </h3>

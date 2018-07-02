@@ -13,7 +13,10 @@
     <div class="split-pane-content-primary full-height">
             <div class="row">
                 <div class="col-md-4 col-xs-6 col-12" *ngFor="let selectedStock of selectedStocks">
-                    <stock-element (stock) = selectedStock>
+                    <stock-element [stock] = selectedStock
+                                   [volume] = "defaultVolume"
+                                    (remove)="removeStock($event)"
+                                    (volumeChange) = "changeVolume($event)">
 
                     </stock-element>
                 </div>

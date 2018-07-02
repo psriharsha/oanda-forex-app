@@ -92,4 +92,9 @@ export class AppComponent {
     });
   }
 
+  changeVolume(volume : number){
+    console.log("Volume Changed... heheheheh");
+    this.defaultVolume = volume;
+  }
+
 }
