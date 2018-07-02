@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Response, Headers, RequestOptions, RequestOptionsArgs } from '@angular/http';
 import {Observable} from 'rxjs/Rx';
-import {Stock} from './stock';
+import {Stock} from './stock/stock';
 declare var $ : any
 
 import 'rxjs/add/operator/map';

@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { AppService } from './app.service';
-import { Stock } from './stock';
+import { Stock } from './stock/stock';
 import { Price } from './price';
 import { OrderRequest } from './order/orderRequest';
 import { Trade } from './trade/trade';
+import { StockComponent } from './stock/stock.component';
 
 @Component({
   selector: 'app-root',

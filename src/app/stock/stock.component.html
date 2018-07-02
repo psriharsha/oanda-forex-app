@@ -1,0 +1,39 @@
+<div class="card mb-3" [class.bg-warning]="selectedStock.direction == 1" [class.bg-dark]="selectedStock.direction == -1"
+    [class.bg-light]="selectedStock.direction == 0" [class.text-white]="selectedStock.direction != 0 && selectedStock.direction != undefined">
+    <div class="card-header">
+        <h3 class="text-center">
+            {{ selectedStock.name | replaceStockName }}
+            <i class="fa" [class.fa-sort-up]="selectedStock.direction == 1" [class.fa-sort-down]="selectedStock.direction == -1"></i>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="removeStock(selectedStock)">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </h3>
+    </div>
+    <!-- <div class="card-content">
+                            Bid : {{ selectedStock.bid.toPrecision(6) }} <br>
+                            Ask : {{ selectedStock.ask.toPrecision(6) }} 
+                        </div> -->
+    <div class="card-footer">
+        <div class="row">
+            <div class="input-group col-md-12" role="group">
+                <div class="input-group-prepend">
+                    <div type="button" class="btn btn-danger" (click)="orderStock(selectedStock, 1)">
+                        <div>Buy</div>
+                        <div [innerHtml]="selectedStock.bid | replaceStockPrice">
+
+                        </div>
+                    </div>
+                </div>
+                <input type="text" class="form-control text-center" [(ngModel)]="defaultVolume">
+                <div class="input-group-append">
+                    <div type="button" class="btn btn-success" (click)="orderStock(selectedStock, -1)">
+                        <div>Sell</div>
+                        <div [innerHtml]="selectedStock.ask | replaceStockPrice">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -6,12 +6,14 @@ import { FormsModule } from '@angular/forms'
 
 import { AppComponent } from './app.component';
 import { AppService } from './app.service';
-import { ReplaceStockName } from './stock.pipe';
+import { ReplaceStockName } from './stock/stock.pipe';
 import { ReplaceStockPrice } from './price.pipe';
+import { StockComponent } from './stock/stock.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    StockComponent,
     ReplaceStockName,
     ReplaceStockPrice
   ],
