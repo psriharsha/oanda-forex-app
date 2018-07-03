@@ -9,13 +9,15 @@ import { AppService } from './app.service';
 import { ReplaceStockName } from './stock/stock.pipe';
 import { ReplaceStockPrice } from './price.pipe';
 import { StockComponent } from './stock/stock.component';
+import { ModalComponent } from './modal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StockComponent,
     ReplaceStockName,
-    ReplaceStockPrice
+    ReplaceStockPrice,
+    ModalComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { AppService } from './app.service';
 import { Stock } from './stock/stock';
 import { Price } from './price';
@@ -10,6 +10,7 @@ import { StockComponent } from './stock/stock.component';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
+  
 })
 export class AppComponent {
   title = "Harsha's App";
@@ -18,7 +19,21 @@ export class AppComponent {
   stocks: Stock[];
   defaultVolume : number;
   trades: Trade[];
+  math: any;
+  $ : any;
+  showModal : boolean;
+
+  @ViewChild('myModal') myModal;
+
+openModel() {
+  this.myModal.nativeElement.className = 'modal fade show';
+}
+closeModel() {
+   this.myModal.nativeElement.className = 'modal hide';
+}
   constructor(private appService : AppService){
+    this.math = Math;
+    this.showModal = true;
       this.selectedStocks = new Array();
       this.trades = new Array();
       this.appService.getAllStocks().subscribe((stocks : any) => {
@@ -63,33 +78,52 @@ export class AppComponent {
         });
       }
       this.appService.getAllTrades().subscribe((tradesResponse : any) => {
-        console.log(tradesResponse.trades);
         this.trades = tradesResponse.trades;
       });
+      
+      for(var j = 0; j <this.trades.length && this.stocks.length > 0; j++){
+        let trade = this.trades[j];
+        let index = -1;
+        for(var i = 0; i < this.selectedStocks.length; i++){
+          if(this.selectedStocks[i].name === trade.instrument){
+            index = i;
+            break;
+          }
+        }
+        if (index < 0){
+          index = this.stocks.findIndex((s : Stock) => {
+            return s.name === trade.instrument;
+          });
+          let stock = this.stocks[index];
+          if (!stock.isHidden){
+            stock.bid = 0;
+            stock.ask = 0;
+            stock.name = trade.instrument;
+            stock.isSelected = true;
+            this.selectedStocks.splice(0,0,stock);
+            break;
+          }
+        }
+      }
   }
 
   selectionChanged(stock : Stock){
-    stock.bid = 0;
-    stock.ask = 0;
-    this.selectedStocks.splice(0,0,stock);
-    let index = this.stocks.indexOf(stock);
-    this.stocks.splice(index,1);
+    if (!stock.isSelected){
+      stock.bid = 0;
+      stock.ask = 0;
+      this.selectedStocks.splice(0,0,stock);
+    }else{
+      stock.isHidden = true;
+      let index = this.selectedStocks.indexOf(stock);
+      this.selectedStocks.splice(index, 1);
+    }
+    stock.isSelected = !stock.isSelected;
+    //this.stocks.splice(index,1);
   }
 
   removeStock(stock : Stock){
-    this.stocks.splice(0,0,stock);
-    let index = this.selectedStocks.indexOf(stock);
-    this.selectedStocks.splice(index,1);
-  }
-
-  orderStock(stock : Stock, direction : number){
-    let newBuyOrder : OrderRequest = new OrderRequest();
-    newBuyOrder.units = this.defaultVolume * direction;
-    newBuyOrder.instrument = stock.name;
-    //console.log(newBuyOrder);
-    this.appService.processOrderRequest(newBuyOrder).subscribe((response : any) => {
-        console.log(response);
-    });
+    //this.stocks.splice(0,0,stock);
+    this.selectionChanged(stock);
   }
 
   changeVolume(volume : number){

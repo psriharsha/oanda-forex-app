@@ -1,5 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { OrderRequest } from '../order/orderRequest';
 import { Stock } from './stock';
+import { AppService } from '../app.service';
 
 @Component({
     selector: 'stock-element',
@@ -11,11 +13,21 @@ import { Stock } from './stock';
       @Output() remove = new EventEmitter<Stock>();
       @Output() volumeChange = new EventEmitter<number>();
 
-      constructor(){
+      constructor(private appService : AppService){
       }
 
       removeStock(){
           this.remove.emit(this.selectedStock);
+      }
+
+      orderStock(stock : Stock, direction : number){
+        let newBuyOrder : OrderRequest = new OrderRequest();
+        newBuyOrder.units = this.defaultVolume * direction;
+        newBuyOrder.instrument = stock.name;
+        //console.log(newBuyOrder);
+        this.appService.processOrderRequest(newBuyOrder).subscribe((response : any) => {
+            console.log(response);
+        });
       }
 
       ngOnChanges(){

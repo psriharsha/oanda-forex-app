@@ -7,4 +7,6 @@ export class Stock {
     ask: number;
     type: string;
     direction: number;
+    isSelected: boolean;
+    isHidden: boolean;
 }
