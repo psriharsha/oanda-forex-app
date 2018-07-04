@@ -1,19 +1,19 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1 (click)="showModal = !showModal">
-    {{title}}! 
-    <button class="btn btn-primary" type="button" (click)="modal.show()">test</button>
-  </h1>
-</div>
-<div class="container-fluid" style="height:85vh; overflow:auto;">
-    <vertical-split-pane
-    primary-component-minsize="1000"
+<div class="container-fluid" style="height:100vh; overflow:auto;">
+    <horizontal-split-pane
+    primary-component-minsize="200"
     secondary-component-minsize="200"
     local-storage-key="split-pane"
     primary-component-initialratio="0.8">
-    <div class="split-pane-content-primary full-height">
+    <div class="split-pane-content-primary" style="height:100%;overflow:auto;">
+            <div style="text-align:center">
+                <h1 (click)="showModal = !showModal">
+                    {{title}}! 
+                    <button class="btn btn-primary" type="button" (click)="modal.show()">test</button>
+                </h1>
+            </div>
             <div class="row">
-                <div class="col-md-4 col-xs-6 col-12" *ngFor="let selectedStock of selectedStocks">
+                <div class="col-md-3 col-xs-4 col-12" *ngFor="let selectedStock of selectedStocks">
                     <stock-element [stock] = selectedStock
                                    [volume] = "defaultVolume"
                                     (remove)="removeStock($event)"
@@ -22,47 +22,41 @@
                     </stock-element>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <table class="table">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">Instrument</th>
-                                    <th scope="col">Type</th>
-                                    <th scope="col">Price</th>
-                                    <th scope="col">initial Units</th>
-                                    <th scope="col">Open Time</th>
-                                    <th scope="col">State</th>
-                                    <th scope="col">Margin Used</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let trade of trades">
-                                    <td>{{ trade.instrument | replaceStockName }}</td>
-                                    <td>
-                                        <span *ngIf = "trade.initialUnits < 0">SHORT</span>
-                                        <span *ngIf = "trade.initialUnits > 0">LONG</span>
-                                    </td>
-                                    <td>{{ trade.price }}</td>
-                                    <td>{{ this.math.abs(trade.initialUnits) }}</td>
-                                    <td>{{ trade.openTime | date : 'medium' }}</td>
-                                    <td>{{ trade.state }}</td>
-                                    <td>{{ trade.marginUsed }}</td>
-                                </tr>
-                            </tbody>
-                    </table>
-                </div>
-            </div>
         </div>
-        <div class="split-pane-content-secondary full-height">
-            <div class="btn-group-vertical">
-                <button *ngFor="let s of stocks" class="btn btn-default" (click)="selectionChanged(s)">                    
-                    <i class="fa fa-check" *ngIf="s.isSelected"></i>
-                    {{ s.name | replaceStockName}}
-                </button>
-            </div>
+        <div class="split-pane-content-secondary">            
+                <div class="row">
+                        <div class="col-md-12">
+                            <table class="table">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col">Instrument</th>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">initial Units</th>
+                                            <th scope="col">Open Time</th>
+                                            <th scope="col">State</th>
+                                            <th scope="col">Margin Used</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let trade of trades">
+                                            <td>{{ trade.instrument | replaceStockName }}</td>
+                                            <td>
+                                                <span *ngIf = "trade.initialUnits < 0">SHORT</span>
+                                                <span *ngIf = "trade.initialUnits > 0">LONG</span>
+                                            </td>
+                                            <td>{{ trade.price }}</td>
+                                            <td>{{ this.math.abs(trade.initialUnits) }}</td>
+                                            <td>{{ trade.openTime | date : 'medium' }}</td>
+                                            <td>{{ trade.state }}</td>
+                                            <td>{{ trade.marginUsed }}</td>
+                                        </tr>
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
         </div>
-</vertical-split-pane>
+</horizontal-split-pane>
 </div>
 <app-modal #modal>
   <div class="app-modal-header">

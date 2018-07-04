@@ -10,11 +10,13 @@
     font-weight: bold;
     font-size: 22px;
 }
-.full-height{
-    height: 100%;
-    overflow: auto;
-    padding: 10px;
-}
 .modal {
     background: rgba(0,0,0,0.6);
-  }
+}
+.input-group-prepend .btn, .input-group-append .btn{
+    z-index: 0;
+}
+.row{
+    margin-right : 0px;
+    margin-left  : 0px;
+}
