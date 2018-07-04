@@ -3,18 +3,18 @@
     [class.bg-light]="selectedStock.direction == 0" [class.text-white]="selectedStock.direction != 0 && selectedStock.direction != undefined">
     <div class="card-header">
         <div class="row">
-            <div class=" col-md-1 text-left">
-                    <i class="fas fa-sign-out-alt"></i>
+            <div class=" col-sm-1 text-left">
+                    <i class="fas fa-cube fa-lg"></i>
             </div>
-            <div class="col-md-10 text-center">
-                <h2>
+            <div class="col-sm-10 text-center">
+                <h3>
                     {{ selectedStock.name | replaceStockName }}
                     <i class="fa" [class.fa-sort-up]="selectedStock.direction == 1" [class.fa-sort-down]="selectedStock.direction == -1"></i>
-                </h2>
+                </h3>
             </div>
-            <div class="col-md-1">
+            <div class="col-sm-1">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="removeStock()">
-                        <span aria-hidden="true">&times;</span>
+                            <i class="fas fa-times"></i>
                     </button>
             </div>
         </div>
