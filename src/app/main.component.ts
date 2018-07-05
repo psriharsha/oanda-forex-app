@@ -7,12 +7,12 @@ import { Trade } from './trade/trade';
 import { StockComponent } from './stock/stock.component';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
+  selector: 'main-root',
+  templateUrl: './main.component.html',
   styleUrls: ['./app.component.scss']
   
 })
-export class AppComponent {
+export class MainComponent {
   title = "Harsha's App";
   stock : Stock;
   selectedStocks: Stock[];
@@ -48,9 +48,8 @@ closeModel() {
         //   this.stock = this.stocks[0];
         // }
         this.defaultVolume = 100;
-        //setInterval(() => { this.refreshData(); }, 1500);
-        console.log(stocks.instruments);
       });
+      setInterval(() => { this.refreshData(); }, 1500);
   }
   refreshData(){
       if (this.selectedStocks.length > 0){
