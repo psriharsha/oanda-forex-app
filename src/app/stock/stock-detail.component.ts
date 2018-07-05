@@ -25,20 +25,24 @@ import { Location } from '@angular/common';
 
     getStock() : void {
         const name : string = this.route.snapshot.paramMap.get('name');
-        this.stockName = name.toUpperCase();
+        this.stockName = name.toUpperCase();        
+        this.selectedStock = new Stock();
         setInterval(() => { this.refreshData(); }, 1500);
     }
 
     refreshData(){        
         this.service.getStock(this.stockName)
             .subscribe((stockQuotes) =>{
-                console.log("Some Text");
-                let infoStock = stockQuotes.prices[0];
-                this.selectedStock = new Stock();
-                this.selectedStock.ask = infoStock.ask;
-                this.selectedStock.bid = infoStock.bid;
-                this.selectedStock.name = infoStock.instrument;
-                this.selectedStock.direction = 0;
+                let price = stockQuotes.prices[0];
+                if (undefined == this.selectedStock.bid || this.selectedStock.bid === price.bid)
+                  this.selectedStock.direction = 0;
+                else if (this.selectedStock.bid > price.bid)
+                  this.selectedStock.direction = -1;
+                else
+                  this.selectedStock.direction = 1;
+                this.selectedStock.ask = price.ask;
+                this.selectedStock.bid = price.bid;
+                this.selectedStock.name = price.instrument;
             });
     }
 }
