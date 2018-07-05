@@ -24,11 +24,13 @@
     "@angular/platform-browser": "^4.2.4",
     "@angular/platform-browser-dynamic": "^4.2.4",
     "@angular/router": "^4.2.4",
+    "angular-sortablejs": "^2.5.2",
     "bootstrap": "^4.0.0-beta.2",
     "core-js": "^2.4.1",
     "ng2-split-pane": "^1.4.0",
     "npm": "^6.1.0",
     "rxjs": "^5.4.2",
+    "sortablejs": "^1.7.0",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
