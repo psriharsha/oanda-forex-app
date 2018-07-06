@@ -54,7 +54,7 @@ closeModel() {
   refreshData(){
       if (this.selectedStocks.length > 0){
           this.appService.getStockPrice(this.selectedStocks).subscribe((stockQuotes : any) => {
-            console.log(stockQuotes);
+            console.log(stockQuotes.prices);
             let prices : any[] = stockQuotes.prices;
             prices.forEach(price => {
               let index = this.selectedStocks.findIndex(function(selectedStock){
@@ -63,14 +63,15 @@ closeModel() {
                 });
               });
               if(index >= 0){
-                if (this.selectedStocks[index].bid < price.bid)
-                  this.selectedStocks[index].direction = 1;
-                else if (this.selectedStocks[index].bid > price.bid)
-                  this.selectedStocks[index].direction = -1;
+                let oldValue : number = this.selectedStocks[index].bid;
+                this.selectedStocks[index].bid = price.bids[0].price;
+                this.selectedStocks[index].ask = price.asks[0].price;
+                if (oldValue == undefined || oldValue === this.selectedStocks[index].bid)
+                    this.selectedStocks[index].direction = 0;
+                else if (oldValue > this.selectedStocks[index].bid)
+                    this.selectedStocks[index].direction = -1;
                 else
-                  this.selectedStocks[index].direction = 0;
-                this.selectedStocks[index].bid = price.bid;
-                this.selectedStocks[index].ask = price.ask;
+                    this.selectedStocks[index].direction = 1;
               }
             });
             

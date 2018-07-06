@@ -39,9 +39,9 @@ export class AppService {
         selectedStocks.forEach(selectedStock => {
           stockNames.push(selectedStock.name);
         });
-        currencies = stockNames.join('&instruments=');
+        currencies = stockNames.join(',');
         // ...using get request
-        return this.http.get(this.url + 'v1/prices?instruments=' + currencies, this.requestOptions)
+        return this.http.get(this.url + 'v3/accounts/101-004-8304515-001/pricing?instruments=' + currencies, this.requestOptions)
                         .map((res:Response) => res.json())
                         //...errors if any
                         .catch((error:any) => Observable.throw(error.json().error || 'Server error'));

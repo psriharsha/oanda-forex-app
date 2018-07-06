@@ -1,9 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({name: 'replaceStockPrice'})
 export class ReplaceStockPrice implements PipeTransform {
-  transform(value: number): string {
+  transform(priceValue: number): string {
       let componentValue = "";
-      let stringValue = value.toPrecision(6);
+      let stringValue = "";
+      if (Number.isNaN(priceValue))
+        stringValue = "0.000000";
+        else
+        stringValue = Number(priceValue).toPrecision(6);
       let decimalIndex = stringValue.indexOf('.');
       let wholeValue : string;
       let decimalValue : string;
