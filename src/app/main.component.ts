@@ -131,6 +131,12 @@ export class MainComponent {
   }
 
   popout(stock: Stock) {
+    let index = this.selectedStocks.indexOf(stock);
+    if (index >= 0){
+      stock.isHidden = true;
+      stock.isSelected = false;
+      this.selectedStocks.splice(index,1);
+    }
     if (window.require) {
       try {
         window.require('electron').ipcRenderer.send('openDetail', stock.name);
