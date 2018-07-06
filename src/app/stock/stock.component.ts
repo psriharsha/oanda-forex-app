@@ -12,6 +12,7 @@ import { AppService } from '../app.service';
       @Input('volume') defaultVolume : number;
       @Output() remove = new EventEmitter<Stock>();
       @Output() volumeChange = new EventEmitter<number>();
+      @Output() popoutWindow = new EventEmitter<Stock>();
 
       constructor(private appService : AppService){
       }
@@ -34,5 +35,9 @@ import { AppService } from '../app.service';
         if (this.defaultVolume < 1)
             this.defaultVolume = 1;
         this.volumeChange.emit(this.defaultVolume);
+      }
+
+      popOut(){
+        this.popoutWindow.emit(this.selectedStock);
       }
   }

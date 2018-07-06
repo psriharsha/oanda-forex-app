@@ -131,4 +131,8 @@ closeModel() {
     this.defaultVolume = volume;
   }
 
+  popout(stock : Stock) {
+    console.log(stock.name + " is to be popped out");
+  }
+
 }

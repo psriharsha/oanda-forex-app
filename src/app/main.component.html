@@ -17,7 +17,8 @@
                     <stock-element [stock] = selectedStock
                                    [volume] = "defaultVolume"
                                     (remove)="removeStock($event)"
-                                    (volumeChange) = "changeVolume($event)">
+                                    (volumeChange) = "changeVolume($event)"
+                                    (popoutWindow) = "popout($event)">
                     </stock-element>
                 </div>
             </div>

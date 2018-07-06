@@ -2,7 +2,8 @@
     <div class="col-12">
         <stock-element [stock] = selectedStock
                         [volume] = "10"
-                        (remove)="removeStock($event)">
+                        (remove)="removeStock($event)"
+                        (popoutWindow) = "popout($event)">
                     </stock-element>
     </div>
 </div>

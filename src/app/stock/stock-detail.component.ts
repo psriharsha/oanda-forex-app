@@ -61,4 +61,8 @@ import { Location } from '@angular/common';
             console.log("Browser event should close");
         }
     }
+
+    popout(stock : Stock) {
+        console.log(stock.name + " is to be popped out");
+    }
 }
