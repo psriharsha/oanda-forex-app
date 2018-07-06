@@ -19,9 +19,10 @@ const appRoutes : Routes= [
   { path: 'stock/:name',      component: StockDetailComponent },
   { path: 'app',               component: MainComponent    },
   { path: '',
-    redirectTo: '/',
+    redirectTo: '/app',
     pathMatch: 'full'
   },
+  { path: '**', redirectTo: '/' }
 ];
 
 @NgModule({

@@ -45,4 +45,8 @@ import { Location } from '@angular/common';
                 this.selectedStock.name = price.instrument;
             });
     }
+
+    removeStock(stock : Stock){
+        console.log("Closing " + stock.name);
+    }
 }

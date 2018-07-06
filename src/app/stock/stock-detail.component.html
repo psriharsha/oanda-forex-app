@@ -1,7 +1,8 @@
 <div class="row">
     <div class="col-12">
         <stock-element [stock] = selectedStock
-                                   [volume] = "10">
+                        [volume] = "10"
+                        (remove)="removeStock($event)">
                     </stock-element>
     </div>
 </div>

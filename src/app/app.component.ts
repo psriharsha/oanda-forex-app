@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { AppService } from './app.service';
 import { Stock } from './stock/stock';
 import { Price } from './price';
@@ -31,9 +32,11 @@ openModel() {
 closeModel() {
    this.myModal.nativeElement.className = 'modal hide';
 }
-  constructor(private appService : AppService){
+  constructor(private appService : AppService,
+              private _router: Router){
     this.math = Math;
     this.showModal = true;
+    console.log(this._router.url);
       this.selectedStocks = new Array();
       this.trades = new Array();
       this.appService.getAllStocks().subscribe((stocks : any) => {
