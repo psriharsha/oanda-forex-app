@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnChanges, OnInit } from '@angular/core';
+import { remote, IpcRenderer } from 'electron';
 import { Stock } from './stock';
 import { ActivatedRoute } from '@angular/router';
 import { AppService } from '../app.service';
@@ -12,6 +13,7 @@ import { Location } from '@angular/common';
   export class StockDetailComponent implements OnInit{
     @Input() selectedStock : Stock;
     private stockName : String;
+    private _ipc: IpcRenderer | undefined;
 
     constructor(
         private route: ActivatedRoute,
@@ -48,5 +50,15 @@ import { Location } from '@angular/common';
 
     removeStock(stock : Stock){
         console.log("Closing " + stock.name);
+        if (window.require){
+            try{
+                this._ipc = window.require('electron').ipcRenderer;
+                window.close();
+            }catch(e){
+                throw e;
+            }
+        }else{
+            console.log("Browser event should close");
+        }
     }
 }
