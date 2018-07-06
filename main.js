@@ -1,4 +1,6 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron');
+const path = require('path');
+const url = require('url');
 
 let win;
 
@@ -22,10 +24,6 @@ function createWindow () {
   win.on('closed', function () {
     win = null
   })
-
-  ipcMain.on('openDetail', (event, arg) => {
-    console.log(arg);
-  })
 }
 
 // Create window on electron intialization
@@ -45,4 +43,25 @@ app.on('activate', function () {
   if (win === null) {
     createWindow()
   }
+})
+
+
+ipcMain.on('openDetail', (event, arg) => {
+  let newWin = new BrowserWindow({
+    width: 320, 
+    height: 300,
+    // webPreferences: {
+    //   webSecurity: false
+    // },
+    backgroundColor: '#000000',
+    color: '#ffffff',
+    icon: `file://${__dirname}/dist/assets/logo.png`
+  });
+
+  newWin.loadURL(url.format({
+    pathname: path.join(__dirname, '/dist/index.html'),
+    protocol: 'file:',
+    slashes: true,
+    hash: '/stock/' + arg
+  }))
 })

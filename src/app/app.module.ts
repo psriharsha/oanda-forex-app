@@ -37,7 +37,8 @@ const appRoutes : Routes= [
   ],
   imports: [    
     RouterModule.forRoot(
-      appRoutes
+      appRoutes,
+      {useHash : true}
     ),
     BrowserModule,
     SplitPaneModule,

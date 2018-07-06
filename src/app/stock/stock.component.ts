@@ -44,9 +44,7 @@ import { AppService } from '../app.service';
         if (window.require){
             try{
                 this._ipc = window.require('electron').ipcRenderer;
-                console.log("blah blah blah");
-                this._ipc.send('openDetail','blue blah is the hero');
-                console.log("Something's wrong");
+                this._ipc.send('openDetail',this.selectedStock.name);
             }catch(e){
                 throw e;
             }
