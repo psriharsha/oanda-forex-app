@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { IpcRenderer } from 'electron';
 import { OrderRequest } from '../order/orderRequest';
 import { Stock } from './stock';
 import { AppService } from '../app.service';
@@ -13,6 +14,7 @@ import { AppService } from '../app.service';
       @Output() remove = new EventEmitter<Stock>();
       @Output() volumeChange = new EventEmitter<number>();
       @Output() popoutWindow = new EventEmitter<Stock>();
+      private _ipc: IpcRenderer | undefined;
 
       constructor(private appService : AppService){
       }
@@ -39,5 +41,17 @@ import { AppService } from '../app.service';
 
       popOut(){
         this.popoutWindow.emit(this.selectedStock);
+        if (window.require){
+            try{
+                this._ipc = window.require('electron').ipcRenderer;
+                console.log("blah blah blah");
+                this._ipc.send('openDetail','blue blah is the hero');
+                console.log("Something's wrong");
+            }catch(e){
+                throw e;
+            }
+        }else{
+            console.log("Browser event should popout");
+        }
       }
   }

@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 
 let win;
 
@@ -21,6 +21,10 @@ function createWindow () {
   // Event when the window is closed.
   win.on('closed', function () {
     win = null
+  })
+
+  ipcMain.on('openDetail', (event, arg) => {
+    console.log(arg);
   })
 }
 
