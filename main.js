@@ -55,8 +55,9 @@ ipcMain.on('openDetail', (event, arg) => {
     // },
     backgroundColor: '#000000',
     color: '#ffffff',
-    icon: `file://${__dirname}/dist/assets/logo.png`
+    icon: `file://${__dirname}/dist/assets/logo.png`,
   });
+  newWin.setMenu(null);
 
   newWin.loadURL(url.format({
     pathname: path.join(__dirname, '/dist/index.html'),

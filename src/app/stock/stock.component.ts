@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
-import { IpcRenderer } from 'electron';
 import { OrderRequest } from '../order/orderRequest';
 import { Stock } from './stock';
 import { AppService } from '../app.service';
@@ -11,10 +10,10 @@ import { AppService } from '../app.service';
   export class StockComponent implements OnChanges{
       @Input('stock') selectedStock : Stock;
       @Input('volume') defaultVolume : number;
+      @Input('is-open') isOpen : boolean;
       @Output() remove = new EventEmitter<Stock>();
       @Output() volumeChange = new EventEmitter<number>();
       @Output() popoutWindow = new EventEmitter<Stock>();
-      private _ipc: IpcRenderer | undefined;
 
       constructor(private appService : AppService){
       }
@@ -41,15 +40,5 @@ import { AppService } from '../app.service';
 
       popOut(){
         this.popoutWindow.emit(this.selectedStock);
-        if (window.require){
-            try{
-                this._ipc = window.require('electron').ipcRenderer;
-                this._ipc.send('openDetail',this.selectedStock.name);
-            }catch(e){
-                throw e;
-            }
-        }else{
-            console.log("Browser event should popout");
-        }
       }
   }
