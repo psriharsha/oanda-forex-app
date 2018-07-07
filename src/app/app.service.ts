@@ -22,16 +22,6 @@ export class AppService {
   url: string = 'https://api-fxpractice.oanda.com/';
   constructor(private http: Http) { }
 
-  getStock(stockName: String): Observable<any> {
-
-    let currencies = stockName;
-    return this.http.get(this.url + 'v1/prices?instruments=' + currencies, this.requestOptions)
-      .map((res: Response) => res.json())
-      //...errors if any
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
-
-  }
-
   getStockPrice(selectedStocks: Stock[]): Observable<any> {
 
     let currencies = "";

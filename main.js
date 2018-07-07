@@ -58,7 +58,7 @@ app.on('activate', function () {
 ipcMain.on('openDetail', (event, arg) => {
   let newWin = new BrowserWindow({
     width: 320,
-    height: 300,
+    height: 250,
     backgroundColor: '#000000',
     color: '#ffffff',
     icon: `file://${__dirname}/dist/assets/logo.png`,

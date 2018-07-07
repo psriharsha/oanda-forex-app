@@ -4,7 +4,7 @@
     <div class="card-header">
         <div class="row">
             <div class=" col-1 text-left">
-                    <i class="fas fa-lg" [class.fa-box-open] = "!isOpen"
+                    <i class="fas fa-lg  mock-btn" [class.fa-box-open] = "!isOpen"
                     [class.fa-box]="isOpen" (click)="popOut()"></i>
             </div>
             <div class="col-10 text-center">
@@ -14,9 +14,7 @@
                 </h3>
             </div>
             <div class="col-1">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="removeStock()">
-                            <i class="fas fa-times"></i>
-                    </button>
+                <i class="fas fa-times fa-lg mock-btn" (click)="removeStock()"></i>
             </div>
         </div>
     </div>

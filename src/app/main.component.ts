@@ -148,7 +148,7 @@ export class MainComponent {
       }
     } else {
       window.open(window.location.hostname  + '/#/stock/' + stock.name,
-                  stock.name,'height=300,width=300, location=0');
+                  stock.name,'height=250,width=300, location=0');
     }
   }
 
@@ -171,7 +171,7 @@ export class MainComponent {
               let childStock = stocks.instruments[0];
               childStock.isSelected = true;
               childStock.isHidden = false;
-                this.selectedStocks.push(childStock);
+                this.selectedStocks.splice(0,0,childStock);
             });
               }
             });

@@ -40,7 +40,6 @@ export class StockDetailComponent implements OnInit {
     }
 
     refreshData() {
-        console.log("Invoking Price " + this.selectedStock.name);
         this.service.getStockPrice([this.selectedStock])
             .subscribe((stockQuotes) => {
                 let price = stockQuotes.prices[0];
@@ -75,6 +74,7 @@ export class StockDetailComponent implements OnInit {
     popout(stock: Stock) {
         if (this._ipc !== undefined) {
             this._ipc.send('closeDetail', this.selectedStock.name);
+            window.close();
         }
     }
 }
