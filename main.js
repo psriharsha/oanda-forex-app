@@ -3,11 +3,12 @@ const path = require('path');
 const url = require('url');
 
 let win;
+let childWindows = [];
 
-function createWindow () {
+function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 600, 
+    width: 600,
     height: 600,
     backgroundColor: '#000000',
     color: '#ffffff',
@@ -15,13 +16,21 @@ function createWindow () {
   })
 
 
-  win.loadURL(`file://${__dirname}/dist/index.html`)
+  win.loadURL(url.format({
+    pathname: path.join(__dirname, '/dist/index.html'),
+    protocol: 'file:',
+    slashes: true,
+    hash: '/app'
+  }))
 
   //// uncomment below to open the DevTools.
   // win.webContents.openDevTools()
 
   // Event when the window is closed.
   win.on('closed', function () {
+    childWindows.forEach((childWindow) => {
+      childWindow.close();
+    })
     win = null
   })
 }
@@ -48,11 +57,8 @@ app.on('activate', function () {
 
 ipcMain.on('openDetail', (event, arg) => {
   let newWin = new BrowserWindow({
-    width: 320, 
+    width: 320,
     height: 300,
-    // webPreferences: {
-    //   webSecurity: false
-    // },
     backgroundColor: '#000000',
     color: '#ffffff',
     icon: `file://${__dirname}/dist/assets/logo.png`,
@@ -65,4 +71,5 @@ ipcMain.on('openDetail', (event, arg) => {
     slashes: true,
     hash: '/stock/' + arg
   }))
+  childWindows.push(newWin);
 })

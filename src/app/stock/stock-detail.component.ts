@@ -53,13 +53,13 @@ import { Location } from '@angular/common';
         if (window.require){
             try{
                 this._ipc = window.require('electron').ipcRenderer;
-                window.close();
             }catch(e){
                 throw e;
             }
         }else{
             console.log("Browser event should close");
-        }
+        }        
+        window.close();
     }
 
     popout(stock : Stock) {
