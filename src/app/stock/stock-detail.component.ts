@@ -9,60 +9,72 @@ import { Location } from '@angular/common';
     selector: 'stock-detail-element',
     templateUrl: 'stock-detail.component.html',
     styleUrls: ['../app.component.scss']
-  })
-  export class StockDetailComponent implements OnInit{
-    @Input() selectedStock : Stock;
-    private stockName : String;
+})
+export class StockDetailComponent implements OnInit {
+    @Input() selectedStock: Stock;
+    private stockName: String;
     private _ipc: IpcRenderer | undefined;
 
     constructor(
         private route: ActivatedRoute,
-        private service : AppService,
-        private location : Location
-    ){}
+        private service: AppService,
+        private location: Location
+    ) {
+        this.initializeIPC();
+    }
 
     ngOnInit(): void {
         this.getStock();
     }
 
-    getStock() : void {
-        const name : string = this.route.snapshot.paramMap.get('name');
-        this.stockName = name.toUpperCase();        
+    getStock(): void {
+        const name: string = this.route.snapshot.paramMap.get('name').toUpperCase();
+        this.stockName = name;
         this.selectedStock = new Stock();
-        setInterval(() => { this.refreshData(); }, 1500);
-    }
-
-    refreshData(){        
-        this.service.getStock(this.stockName)
-            .subscribe((stockQuotes) =>{
-                let price = stockQuotes.prices[0];
-                if (undefined == this.selectedStock.bid || this.selectedStock.bid === price.bid)
-                  this.selectedStock.direction = 0;
-                else if (this.selectedStock.bid > price.bid)
-                  this.selectedStock.direction = -1;
-                else
-                  this.selectedStock.direction = 1;
-                this.selectedStock.ask = price.ask;
-                this.selectedStock.bid = price.bid;
-                this.selectedStock.name = price.instrument;
+        this.selectedStock.name = name;
+        this.service.getAllStocks([this.selectedStock])
+            .subscribe((stocks: any) => {
+                this.selectedStock = stocks.instruments[0];
+                setInterval(() => { this.refreshData(); }, 1500);
             });
     }
 
-    removeStock(stock : Stock){
-        console.log("Closing " + stock.name);
-        if (window.require){
-            try{
-                this._ipc = window.require('electron').ipcRenderer;
-            }catch(e){
-                throw e;
-            }
-        }else{
-            console.log("Browser event should close");
-        }        
+    refreshData() {
+        console.log("Invoking Price " + this.selectedStock.name);
+        this.service.getStockPrice([this.selectedStock])
+            .subscribe((stockQuotes) => {
+                let price = stockQuotes.prices[0];
+                let oldValue: number = this.selectedStock.bid;
+                this.selectedStock.bid = price.bids[0].price;
+                this.selectedStock.ask = price.asks[0].price;
+                if (oldValue == undefined || oldValue === this.selectedStock.bid)
+                    this.selectedStock.direction = 0;
+                else if (oldValue > this.selectedStock.bid)
+                    this.selectedStock.direction = -1;
+                else
+                    this.selectedStock.direction = 1;
+            });
+    }
+
+    removeStock(stock: Stock) {
         window.close();
     }
 
-    popout(stock : Stock) {
-        console.log(stock.name + " is to be popped out");
+    initializeIPC() {
+        if (window.require) {
+            try {
+                this._ipc = window.require('electron').ipcRenderer;
+            } catch (e) {
+                throw e;
+            }
+        } else {
+            this._ipc = undefined;
+        }
+    }
+
+    popout(stock: Stock) {
+        if (this._ipc !== undefined) {
+            this._ipc.send('closeDetail', this.selectedStock.name);
+        }
     }
 }

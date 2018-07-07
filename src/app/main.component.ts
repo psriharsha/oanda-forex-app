@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
+import { ipcRenderer, IpcRenderer } from 'electron';
 import { AppService } from './app.service';
 import { Stock } from './stock/stock';
 import { Trade } from './trade/trade';
@@ -20,6 +21,7 @@ export class MainComponent {
   math: any;
   $: any;
   showModal: boolean;
+  _ipc : IpcRenderer | undefined;
 
   @ViewChild('myModal') myModal;
 
@@ -31,11 +33,12 @@ export class MainComponent {
   }
   constructor(private appService: AppService,
               private _location : Location) {
+    this.initializeIPC();
     this.math = Math;
     this.showModal = true;
     this.selectedStocks = new Array();
     this.trades = new Array();
-    this.appService.getAllStocks().subscribe((stocks: any) => {
+    this.appService.getAllStocks(undefined).subscribe((stocks: any) => {
       this.stocks = stocks.instruments;
       this.stocks.forEach((s: Stock) => {
         if (s.type !== "CURRENCY") {
@@ -148,5 +151,36 @@ export class MainComponent {
                   stock.name,'height=300,width=300, location=0');
     }
   }
+
+  initializeIPC(){
+    if (window.require){
+        try{
+            this._ipc = window.require('electron').ipcRenderer;
+            this._ipc.on('addStock', (event,stockName) => {
+              let index = -1;
+              index = this.selectedStocks.findIndex((s: Stock) => {
+                return s.name === stockName;
+              });
+              if (index == -1){
+                let newStock = new Stock();
+                newStock.name = stockName;
+                let arr = [];
+                arr.push(newStock);
+                this.appService.getAllStocks(arr)
+            .subscribe((stocks: any) => {
+              let childStock = stocks.instruments[0];
+              childStock.isSelected = true;
+              childStock.isHidden = false;
+                this.selectedStocks.push(childStock);
+            });
+              }
+            });
+        }catch(e){
+            throw e;
+        }
+    }else{
+        this._ipc = undefined;
+    }
+}
 
 }

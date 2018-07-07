@@ -63,7 +63,7 @@ ipcMain.on('openDetail', (event, arg) => {
     color: '#ffffff',
     icon: `file://${__dirname}/dist/assets/logo.png`,
   });
-  newWin.setMenu(null);
+  //newWin.setMenu(null);
 
   newWin.loadURL(url.format({
     pathname: path.join(__dirname, '/dist/index.html'),
@@ -72,4 +72,12 @@ ipcMain.on('openDetail', (event, arg) => {
     hash: '/stock/' + arg
   }))
   childWindows.push(newWin);
+  newWin.on('closed', function(){
+    var index = childWindows.indexOf(newWin);
+    childWindows.splice(index, 1);
+  })
+})
+
+ipcMain.on('closeDetail', (event, arg) => {
+  win.webContents.send('addStock', arg);
 })
