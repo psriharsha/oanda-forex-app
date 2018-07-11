@@ -15,9 +15,11 @@ import { ModalComponent } from './modal.component';
 import { StockDetailComponent } from './stock/stock-detail.component';
 import { MainComponent } from './main.component';
 import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './auth-guard.service';
 
 const appRoutes : Routes= [
-  { path: 'stock/:name',      component: StockDetailComponent },
+  { path: 'stock/:name',    component: StockDetailComponent },
+  { path: 'dashboard',   component: MainComponent },
   { path: 'app',               component: LoginComponent    },
   { path: '',
     redirectTo: '/app',

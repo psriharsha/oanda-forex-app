@@ -1,4 +1,5 @@
 <div class="container">
+    {{ text }}
     <div class="row align-items-center" style="height:100vh">
         <div class="col-4">
         </div>
@@ -16,7 +17,10 @@
                   <div *ngIf="accounts.length > 0">
                       <h5 class="card-title">Select your account</h5>
                       <ul class="list-group" *ngFor="let account of accounts">
-                        <li class="list-group-item list-group-item-info">{{ account.id }}</li>
+                        <li class="list-group-item list-group-item-info"
+                            (click) = "selectedAccount(account.id)">
+                            {{ account.id }}
+                        </li>
                       </ul>
                   </div>    
                 </div>

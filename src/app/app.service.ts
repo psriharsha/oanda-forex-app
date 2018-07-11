@@ -16,11 +16,15 @@ export class AppService {
     //'authorization': 'Bearer 286bcbe3df198e65db394a98ca9cf990-f90437ac9e87af5723a3b790f10792a3',
   }
 
+  accountId : String;
+
   requestOptions = {
-    headers: new Headers(this.headerDict),
+    //headers: new Headers(this.headerDict),
   };
   url: string = 'https://api-fxpractice.oanda.com/';
-  constructor(private http: Http) { }
+  constructor(private http: Http) {
+    this.accountId = undefined;
+  }
 
   getStockPrice(selectedStocks: Stock[]): Observable<any> {
 
@@ -31,7 +35,7 @@ export class AppService {
     });
     currencies = stockNames.join(',');
     // ...using get request
-    return this.http.get(this.url + 'v3/accounts/101-004-8304515-001/pricing?instruments=' + currencies, this.requestOptions)
+    return this.http.get(this.url + 'v3/accounts/'+ this.accountId +'/pricing?instruments=' + currencies, this.requestOptions)
       .map((res: Response) => res.json())
       //...errors if any
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
@@ -49,26 +53,29 @@ export class AppService {
       console.log("Curr curr is " + currencies);
       console.log(selectedStocks);
     }
-    return this.http.get(this.url + 'v3/accounts/101-004-8304515-001/instruments' + currencies, this.requestOptions)
+    return this.http.get(this.url + 'v3/accounts/'+ this.accountId +'/instruments' + currencies, this.requestOptions)
       .map((res: Response) => res.json());
   }
 
   processOrderRequest(orderRequest: OrderRequest): Observable<any> {
 
 
-    return this.http.post(this.url + 'v3/accounts/101-004-8304515-001/orders', { order: orderRequest }, this.requestOptions)
+    return this.http.post(this.url + 'v3/accounts/'+ this.accountId +'/orders', { order: orderRequest }, this.requestOptions)
       .map((res: Response) => res.json());
   }
 
   getAllTrades(): Observable<Trade[]> {
-    return this.http.get(this.url + 'v3/accounts/101-004-8304515-001/trades', this.requestOptions)
+    return this.http.get(this.url + 'v3/accounts/'+ this.accountId +'/trades', this.requestOptions)
       .map((res: Response) => res.json());
   }
 
   getAccounts(token : String):Observable<any>{
     this.headerDict = {
       'authorization': 'Bearer ' + token,
-    }
+    };
+    this.requestOptions = {
+      headers: new Headers(this.headerDict),
+    };
     return this.http.get(this.url + 'v3/accounts', this.requestOptions)
       .map((res: Response) => res.json());
   }
