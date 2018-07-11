@@ -13,7 +13,7 @@ import { Trade } from './trade/trade';
 export class AppService {
 
   headerDict = {
-    'authorization': 'Bearer 286bcbe3df198e65db394a98ca9cf990-f90437ac9e87af5723a3b790f10792a3',
+    //'authorization': 'Bearer 286bcbe3df198e65db394a98ca9cf990-f90437ac9e87af5723a3b790f10792a3',
   }
 
   requestOptions = {
@@ -62,6 +62,14 @@ export class AppService {
 
   getAllTrades(): Observable<Trade[]> {
     return this.http.get(this.url + 'v3/accounts/101-004-8304515-001/trades', this.requestOptions)
+      .map((res: Response) => res.json());
+  }
+
+  getAccounts(token : String):Observable<any>{
+    this.headerDict = {
+      'authorization': 'Bearer ' + token,
+    }
+    return this.http.get(this.url + 'v3/accounts', this.requestOptions)
       .map((res: Response) => res.json());
   }
 

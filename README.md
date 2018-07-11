@@ -1,6 +1,6 @@
-# AngularElectronBootstrap
+# OANDA Client
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.9.
+Oanda Client is an unofficial client to trade on OANDA. This project uses [OANDA API](https://developer.oanda.com/)
 
 ## Install dependencies
 

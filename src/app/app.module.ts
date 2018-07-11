@@ -14,10 +14,11 @@ import { StockComponent } from './stock/stock.component';
 import { ModalComponent } from './modal.component';
 import { StockDetailComponent } from './stock/stock-detail.component';
 import { MainComponent } from './main.component';
+import { LoginComponent } from './login/login.component';
 
 const appRoutes : Routes= [
   { path: 'stock/:name',      component: StockDetailComponent },
-  { path: 'app',               component: MainComponent    },
+  { path: 'app',               component: LoginComponent    },
   { path: '',
     redirectTo: '/app',
     pathMatch: 'full'
@@ -33,7 +34,8 @@ const appRoutes : Routes= [
     ReplaceStockName,
     ReplaceStockPrice,
     ModalComponent,
-    StockDetailComponent
+    StockDetailComponent,
+    LoginComponent
   ],
   imports: [    
     RouterModule.forRoot(
