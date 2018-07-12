@@ -4,7 +4,12 @@ import { Router } from '@angular/router';
 
 @Component({
     selector: 'login',
-    templateUrl: './login.component.html'
+    templateUrl: './login.component.html',
+    styles: [`
+    body{
+        background-image: url('../assets/background.jpg');
+        background-repeat: repeat;
+    }`]
   })
   export class LoginComponent{
 
@@ -13,6 +18,7 @@ import { Router } from '@angular/router';
     text : String;
 
     constructor(private service : AppService, private router : Router){
+      sessionStorage.clear();
       this.accounts = new Array();
     }
 
@@ -25,7 +31,11 @@ import { Router } from '@angular/router';
 
     selectedAccount(id : String){
       this.service.accountId = id;
-      console.log("setting account id to " + id);
+      this.service.headerDict = {
+        'authorization' : 'Bearer ' + sessionStorage.getItem('api-token')
+      }
+      sessionStorage.setItem("api-account-id", this.service.accountId.toString());
+      sessionStorage.setItem("api-token", this.token.toString());
       this.router.navigate(['/dashboard']);
       // this.service.getAllStocks([])
       //     .subscribe((result) => {

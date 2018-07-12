@@ -16,16 +16,16 @@ import { StockDetailComponent } from './stock/stock-detail.component';
 import { MainComponent } from './main.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth-guard.service';
+import { LoginService } from './login/login.service';
 
 const appRoutes : Routes= [
-  { path: 'stock/:name',    component: StockDetailComponent },
-  { path: 'dashboard',   component: MainComponent },
-  { path: 'app',               component: LoginComponent    },
+  { path: 'stock/:name',  canActivate:[AuthGuard],  component: StockDetailComponent },
+  { path: 'dashboard',   canActivate:[AuthGuard],component: MainComponent },
+  { path: 'app',  component: LoginComponent    },
   { path: '',
     redirectTo: '/app',
     pathMatch: 'full'
-  },
-  { path: '**', redirectTo: '/' }
+  }
 ];
 
 @NgModule({
@@ -50,7 +50,9 @@ const appRoutes : Routes= [
     HttpModule,
     SortablejsModule.forRoot({ animation: 150 })
   ],
-  providers: [AppService],
+  providers: [AppService, 
+            LoginService,
+            AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
