@@ -21,7 +21,7 @@ export class MainComponent {
   math: any;
   $: any;
   showModal: boolean;
-  _ipc : IpcRenderer | undefined;
+  _ipc: IpcRenderer | undefined;
 
   @ViewChild('myModal') myModal;
 
@@ -32,7 +32,7 @@ export class MainComponent {
     this.myModal.nativeElement.className = 'modal hide';
   }
   constructor(private appService: AppService,
-              private _location : Location) {
+    private _location: Location) {
     this.initializeIPC();
     this.math = Math;
     this.showModal = true;
@@ -135,10 +135,10 @@ export class MainComponent {
 
   popout(stock: Stock) {
     let index = this.selectedStocks.indexOf(stock);
-    if (index >= 0){
+    if (index >= 0) {
       stock.isHidden = true;
       stock.isSelected = false;
-      this.selectedStocks.splice(index,1);
+      this.selectedStocks.splice(index, 1);
     }
     if (window.require) {
       try {
@@ -147,40 +147,40 @@ export class MainComponent {
         throw e;
       }
     } else {
-      window.open(window.location.hostname  + '/#/stock/' + stock.name,
-                  stock.name,'height=250,width=300, location=0');
+      window.open(window.location.hostname + '/#/stock/' + stock.name,
+        stock.name, 'height=250,width=300, location=0');
     }
   }
 
-  initializeIPC(){
-    if (window.require){
-        try{
-            this._ipc = window.require('electron').ipcRenderer;
-            this._ipc.on('addStock', (event,stockName) => {
-              let index = -1;
-              index = this.selectedStocks.findIndex((s: Stock) => {
-                return s.name === stockName;
+  initializeIPC() {
+    if (window.require) {
+      try {
+        this._ipc = window.require('electron').ipcRenderer;
+        this._ipc.on('addStock', (event, stockName) => {
+          let index = -1;
+          index = this.selectedStocks.findIndex((s: Stock) => {
+            return s.name === stockName;
+          });
+          if (index == -1) {
+            let newStock = new Stock();
+            newStock.name = stockName;
+            let arr = [];
+            arr.push(newStock);
+            this.appService.getAllStocks(arr)
+              .subscribe((stocks: any) => {
+                let childStock = stocks.instruments[0];
+                childStock.isSelected = true;
+                childStock.isHidden = false;
+                this.selectedStocks.splice(0, 0, childStock);
               });
-              if (index == -1){
-                let newStock = new Stock();
-                newStock.name = stockName;
-                let arr = [];
-                arr.push(newStock);
-                this.appService.getAllStocks(arr)
-            .subscribe((stocks: any) => {
-              let childStock = stocks.instruments[0];
-              childStock.isSelected = true;
-              childStock.isHidden = false;
-                this.selectedStocks.splice(0,0,childStock);
-            });
-              }
-            });
-        }catch(e){
-            throw e;
-        }
-    }else{
-        this._ipc = undefined;
+          }
+        });
+      } catch (e) {
+        throw e;
+      }
+    } else {
+      this._ipc = undefined;
     }
-}
+  }
 
 }
