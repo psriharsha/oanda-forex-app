@@ -5,6 +5,10 @@ const url = require('url');
 let win;
 let childWindows = [];
 
+/* FOR IMPORTING FS*/
+const fs = require('fs');
+/* IMPORTING FS ENDS*/
+
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
