@@ -1,13 +1,11 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const url = require('url');
+var fs = require('fs');
+var settings = require('./settings');
 
 let win;
 let childWindows = [];
-
-/* FOR IMPORTING FS*/
-const fs = require('fs');
-/* IMPORTING FS ENDS*/
 
 function createWindow() {
   // Create the browser window.
@@ -86,4 +84,15 @@ ipcMain.on('openDetail', (event, arg) => {
 
 ipcMain.on('closeDetail', (event, arg) => {
   win.webContents.send('addStock', arg);
+})
+
+ipcMain.on('login', (event, accountId, token) => {
+  settings.apiAccountId = accountId;
+  settings.apiToken = token;
+  console.log("saved settings");
+})
+
+ipcMain.on('getLoginDetails', (event) => {
+  console.log("sending " + settings.apiAccountId + "," + settings.apiToken);
+  event.sender.send('loginCredentials', settings.apiAccountId, settings.apiToken);
 })
